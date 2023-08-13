@@ -48,14 +48,10 @@ class _MyHomePageState extends State<MyHomePage> {
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         title: Text(widget.title),
       ),
-      body: Provider<int>.value(
-          value: _counter,
-          child: Consumer<int>(
-            builder: (context, value, _) => Text(
-              "consume:$value",
-              style: Theme.of(context).textTheme.headlineMedium,
-            ),
-          )),
+      body: MultiProvider(providers: [
+        Provider<int>.value(value: _counter),
+        Provider<String>.value(value: 'I am Provider')
+      ], child: const Center(child: MyWidget())),
       floatingActionButton: FloatingActionButton(
         onPressed: _incrementCounter,
         tooltip: 'Increment',
