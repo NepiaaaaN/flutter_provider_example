@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'mywidget.dart';
+import 'mydata.dart';
+import 'myslider.dart';
 
 void main() {
   runApp(const MyApp());
@@ -32,31 +33,38 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-
-  void _incrementCounter() {
-    setState(() {
-      _counter++;
-    });
-    print("count:${_counter.toString()}");
-  }
-
+  static const double fontSize = 45;
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: Text(widget.title),
-      ),
-      body: MultiProvider(providers: [
-        Provider<int>.value(value: _counter),
-        Provider<String>.value(value: 'I am Provider')
-      ], child: const Center(child: MyWidget())),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
+    return ChangeNotifierProvider(
+      create: (BuildContext context) => MyData(),
+      child: Scaffold(
+          appBar: AppBar(
+            title: Text(widget.title),
+          ),
+          body: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              // Consumerが変更を検知して、Textを作り直す
+              Consumer<MyData>(
+                builder: (context, mydata, _) => Column(
+                  children: [
+                    Text(
+                      'スライダー1の値 : ${mydata.value.toStringAsFixed(2)}',
+                      style: const TextStyle(fontSize: fontSize),
+                      textAlign: TextAlign.center,
+                    ),
+                    Text(
+                      'スライダー2の値 : ${mydata.value2.toStringAsFixed(2)}',
+                      style: const TextStyle(fontSize: fontSize),
+                      textAlign: TextAlign.center,
+                    ),
+                  ],
+                ),
+              ),
+              const MySlider(),
+            ],
+          )),
     );
   }
 }
