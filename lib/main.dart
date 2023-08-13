@@ -36,6 +36,7 @@ class _MyHomePageState extends State<MyHomePage> {
   static const double fontSize = 45;
   @override
   Widget build(BuildContext context) {
+    // ChangeNotifierProviderが、MyDataのnotifyListenersから変更通知を受け取り画面を作り直す
     return ChangeNotifierProvider(
       create: (BuildContext context) => MyData(),
       child: Scaffold(
@@ -49,6 +50,7 @@ class _MyHomePageState extends State<MyHomePage> {
               Consumer<MyData>(
                 builder: (context, mydata, _) => Column(
                   children: [
+                    // mydataのvalueが変わったら変更を検知し、画面を作り直す
                     Text(
                       'スライダー1の値 : ${mydata.value.toStringAsFixed(2)}',
                       style: const TextStyle(fontSize: fontSize),
